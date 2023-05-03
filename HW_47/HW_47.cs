@@ -16,21 +16,28 @@ PrintMass(mass);
 double[,] MassNumbers(int row, int column)
 {
     double[,] array = new double[row, column];
+    Random rand = new Random();
     for (int i = 0; i < row; i++)
+    {
         for (int j = 0; j < column; j++)
-            array[i, j] = new Random().Next(-8, 16);
-    return array;        
+        {
+            array[i, j] = rand.NextDouble();
+        }
+    }
+    return array;
 }
 
 void PrintMass(double[,] array)
 {
     int row = array.GetLength(0);
     int column = array.GetLength(1);
-    for(int i = 0; i < row; i++)
+    for (int i = 0; i < row; i++)
     {
         for (int j = 0; j < column; j++)
+        {
             Console.Write($" {array[i, j]} ");
-        Console.WriteLine();    
+        }
+        Console.WriteLine();
     }
-    Console.WriteLine();      
+    Console.WriteLine();
 }
