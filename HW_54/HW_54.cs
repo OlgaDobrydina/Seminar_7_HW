@@ -9,58 +9,85 @@
 // 9 5 3 2
 // 8 4 4 2
 
-Console.Write("Введите количество строк массива ");
-int row = int.Parse(Console.ReadLine());
-Console.Write("Введите количество столбцов массива ");
-int column = int.Parse(Console.ReadLine());
-int[,] mass = MassNumbers(row, column);
-PrintMass(mass);
-MatrixToArray(mass);
-
-
-int[,] MassNumbers(int row, int column)
+using System;
+namespace BabbleSort
 {
-    int[,] array = new int[row, column];
-    Random rand = new Random();
-    for (int i = 0; i < row; i++)
+    internal class Program
     {
-        for (int j = 0; j < column; j++)
+        static void Main(string[] args)
         {
-            array[i, j] = rand.Next(1, 100);
+            Console.Write("Введите количество строк массива ");
+            int rowCount = int.Parse(Console.ReadLine());
+            Console.Write("Введите количество столбцов массива ");
+            int colCount = int.Parse(Console.ReadLine());
+            int[,] arr = GenerateArray(rowCount, colCount);
+
+            Console.WriteLine("Исходный массив");
+            PrintArray(arr);
+
+            Console.WriteLine("Отсортированный массив");
+            int[] row = new int[colCount];
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < colCount; j++)
+                    row[j] = arr[i, j];
+                BubbleSort(row);
+                Insert(true, i, row, arr);
+            }
+            PrintArray(arr);
         }
-    }
-    return array;
-}
 
-void PrintMass(int[,] array)
-{
-    int row = array.GetLength(0);
-    int column = array.GetLength(1);
-    for (int i = 0; i < row; i++)
-    {
-        for (int j = 0; j < column; j++)
+        public static void Insert(bool isRow, int dim, int[] source, int[,] dest)
         {
-            Console.Write($" {array[i, j]} ");
+            for (int k = 0; k < source.Length; k++)
+            {
+                if (isRow)
+                    dest[dim, k] = source[k];
+                else
+                    dest[k, dim] = source[k];
+            }
         }
-        Console.WriteLine();
-    }
-    Console.WriteLine();
-}
 
-void MatrixToArray(int[,] array)
-{
-    int[] matrix = new int[column];
-
-    for (int i = 0; i < row; i++)
-    {
-        for (int j = 0; j < column; j++)
+        public static int[,] GenerateArray(int t, int i)
         {
-            matrix[j] = array[i, j];
-            Console.Write(matrix[j] + " ");
-        }        
-        Console.WriteLine();
-        
+            int[,] table = new int[t, i];
+            Random random = new Random();
+            for (int a = 0; a < t; a++)
+            {
+                for (int b = 0; b < i; b++)
+                {
+                    table[a, b] = random.Next(0, 9);
+                }
+            }
+            return table;
+        }
+
+        public static void PrintArray(int[,] array)
+        {
+            for (int a = 0; a < array.GetLength(0); a++)
+            {
+                for (int b = 0; b < array.GetLength(1); b++)
+                {
+                    Console.Write(array[a, b] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        static void BubbleSort(int[] inArray)
+        {
+            for (int i = 0; i < inArray.Length; i++)
+                for (int j = 0; j < inArray.Length - i - 1; j++)
+                {
+                    if (inArray[j] > inArray[j + 1])
+                    {
+                        int temp = inArray[j];
+                        inArray[j] = inArray[j + 1];
+                        inArray[j + 1] = temp;
+                    }
+                }
+        }
+
     }
+
 }
-
-
